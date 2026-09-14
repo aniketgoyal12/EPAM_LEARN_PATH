@@ -88,3 +88,47 @@ Create a base class `Vehicle` with `start()` and `stop()` methods, and subclasse
 
 ## Status
 Task completed — `Vehicle`, `Car`, and `Bike` implemented with proper overriding, `super` calls, and explicit polymorphism demonstrated in `MainVehicle`.
+
+
+
+# Abstract Shape Class — Task 3
+
+Part of the EPAM/GLA University Java learning path (placement preparation track).
+
+## Objective
+Create an abstract class `Shape` with a `calculateArea()` method, and implement `Circle` and `Rectangle` subclasses — covering Abstraction.
+
+## Requirements
+- Abstract class `Shape` with abstract method `calculateArea()`.
+- Subclasses `Circle` and `Rectangle` implementing the method.
+- Use the `abstract` keyword properly.
+- Constructors should initialize necessary attributes.
+
+## Approach
+- Declared `Shape` as an `abstract class` with a single abstract method `calculateArea()` — no body, no attributes, since `Shape` itself represents a generic contract, not a usable object.
+- `Circle` and `Rectangle` extend `Shape` and provide their own implementation of `calculateArea()`, using their respective formulas.
+- Both subclasses have constructors that initialize the attributes needed for their area calculation (`radius` for `Circle`; `length` and `breadth` for `Rectangle`).
+- `calculateArea()` returns the computed value rather than printing it directly — printing is handled separately in `MainShape`.
+
+## Issues Faced (and how they were resolved)
+
+1. **Incorrect `main` method signature**
+    - Initially wrote `public static void main()` without the required `String[] args` parameter.
+    - Java's entry point method must match the exact signature `public static void main(String[] args)` — without it, the JVM doesn't recognize it as the program's entry point and the program won't run at all.
+    - Fixed by correcting the signature.
+
+2. **`calculateArea()` was returning `void` and printing internally**
+    - Initially implemented both `Circle.calculateArea()` and `Rectangle.calculateArea()` as `void` methods that printed the result directly inside themselves.
+    - This defeats the purpose of a method named "calculate" — it should compute and return a value, not decide how/where to display it. It also makes the result unusable elsewhere (e.g., can't sum multiple shapes' areas if the method only prints).
+    - Fixed by changing the return type to `double`, returning the computed area, and moving the `System.out.println()` calls to `MainShape` where the result is actually used.
+
+3. **`radius` was initially typed as `int`**
+    - Changed to `double`, since a real-world radius isn't always a whole number, and to keep the return type of `calculateArea()` consistent (`double`) across both subclasses.
+
+## What I Learned
+- Why abstraction is used when subclasses need to share a method *signature* (a contract) but have completely different logic to fulfill it — `Shape` itself doesn't know or care how area is calculated, only that every subclass must provide one.
+- The importance of separating computation from output — a method should do one job (calculate and return), and the caller decides what to do with the result (print it, use it in further logic, etc.).
+- The exact required signature for Java's `main` method, and why deviating from it (even slightly) prevents the program from running entirely.
+
+## Status
+Task completed — `Shape` (abstract), `Circle`, and `Rectangle` implemented with proper abstraction, correct return types, and tested via `MainShape`.
